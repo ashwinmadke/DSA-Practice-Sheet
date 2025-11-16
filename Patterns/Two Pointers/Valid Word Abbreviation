@@ -1,0 +1,40 @@
+https://neetcode.io/problems/valid-word-abbreviation?list=neetcode250
+
+********************************************************************************************************************************************************************
+TC - O(m)
+SC - O(1)
+
+public boolean validWordAbbreviation(String word, String abbr) {
+        int i = 0;//pointer for word string
+        int j = 0;//pointer for abbr string
+        int skipCount =0;
+
+        while(i<word.length() && j<abbr.length()){
+            char curr = abbr.charAt(j);// get char of abbr string
+
+            //check if curr character is digit or not
+            if(Character.isDigit(curr)){
+
+                //check if its leading 0 than its invalid
+                if(skipCount == 0 && curr == '0') return false;
+
+                //if its number than read whole number
+                skipCount = skipCount * 10 + (curr - '0');
+            }
+            // handle character
+            else{
+                // First, skip characters in word based on accumulated number 
+                i += skipCount;
+                skipCount = 0; //reset to 0;
+
+                // Check if we've gone out of bounds or characters don't match curr character
+                if(i>=word.length() || word.charAt(i) != curr) return false;
+                i++; //move pointer for next character
+            }
+            //move j for next character
+            j++;
+        }
+       
+      i += skipCount; // Apply skipCount if abbreviation ended with a number
+      return i == word.length();// Valid only if we consumed the entire word
+}
