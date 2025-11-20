@@ -1,0 +1,38 @@
+https://leetcode.com/problems/max-consecutive-ones-iii/description/
+********************************************************************************************************************************************************************
+Brute Force - Using loops
+// Check every possible subarray, in each subarray count how many zeros it have.
+// If zeroes are greater than k, break immediately, no need to expand further.
+// else for valid subarrays keep updating the maxlength.
+
+TC - O(n^2)
+SC - O(1)
+
+********************************************************************************************************************************************************************
+// Approach - Sliding Window - Variable Size
+// Use two pointers (left and right), both starting at the beginning of the array.  
+// while iterating, maintain a window and track the number of zeros within window. 
+// If the number of zeros exceeds k, shrink the window from the left until it's valid.
+// Otherwise, expand the window by moving the right pointer.
+// and at each step, update maxLength to keep track of longest window found.
+
+TC - O(n)
+SC - O(1)
+  
+    public int longestOnes(int[] nums, int k) {  
+        int left = 0;
+        int count_0 = 0;
+        int maxLen = 0;
+
+        for(int right =0; right < nums.length; right++){
+            if(nums[right] == 0) count_0++;
+
+            while(count_0 > k){
+                if(nums[left] == 0) count_0--;
+                left++;
+                
+            }    
+            maxLen = Math.max(maxLen, right-left + 1);   
+        }
+        return maxLen;
+    }
