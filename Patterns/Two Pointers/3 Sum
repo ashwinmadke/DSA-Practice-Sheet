@@ -1,0 +1,51 @@
+// https://leetcode.com/problems/3sum/
+
+**********************************************************************************************************************************************************************
+Brute Approach - 3 nested loops
+// find all pairs triplets using 3 nested loops
+// and use hashset to store unique triplet
+TC - O(n^3)
+SC - O(n)
+
+**********************************************************************************************************************************************************************
+Better Approach - Sorting + HashSet + Two Pointers
+// sort the array 
+// use hashset to store unique triplets
+// fix one element using loop and over remaining array apply two pointers using two sum logic
+TC - O(n^2)
+SC - O(n)
+
+public List<List<Integer>> threeSum(int[] nums) {
+        if(nums == null || nums.length < 3) return new ArrayList<>();
+
+        Arrays.sort(nums); // sort the elements
+
+        //for storing unique triplets
+        Set<List<Integer>> result = new HashSet<>(); 
+
+        //fix one element and in remaining array apply two pointers
+        for(int i=0; i<nums.length-2; i++){
+            //find two elements using two sum approach
+            int left = i+1;
+            int right = nums.length-1;
+
+            while(left < right){
+                int sum = nums[i]+nums[left]+nums[right];
+
+                if(sum == 0){
+                    //add to set and move towards finding other triplet
+                    result.add(Arrays.asList(nums[i],nums[left],nums[right]));
+
+                    left++;
+                    right--;
+                }
+                else if(sum < 0){
+                    left++;
+                }
+                else{
+                    right --;
+                }
+            }
+        }
+        return new ArrayList<>(result);
+    }
