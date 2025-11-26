@@ -1,0 +1,32 @@
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+
+Brute Approach - Generate all possible substrings of all length, and whichever substring have max length with unique character will be by answer.
+TC - O(n^3) - [ O(n^2) for generating substring + O(n) for checking uniqueness ]
+SC - O(1)
+
+*********************************************************************************************************************************************************************
+Better Approach - Sliding Window + HashSet
+TC - O(n)
+SC - O(1)
+
+public int lengthOfLongestSubstring(String s) {
+        //set to store unique character
+        Set<Character> uniqueCharSet = new HashSet<>();
+
+        int maxLenOfUniqSubstring = 0; // initially 0
+        int left = 0; // pointer to start traversing over string
+
+        for(int right=0; right<s.length(); right++){
+            //jab tk duplicate characters set me available hai tb tk use remove karte raho
+            // and left pointer aage badate raho
+            while(uniqueCharSet.contains(s.charAt(right))){
+                uniqueCharSet.remove(s.charAt(left));
+                left++;
+            }
+            uniqueCharSet.add(s.charAt(right));
+            //once character is added to map, udate maxLength also                     
+            //currSubstring length - difference of right pointer and left pointer
+            maxLenOfUniqSubstring = Math.max(maxLenOfUniqSubstring, right - left +1);
+        }
+        return maxLenOfUniqSubstring;
+    }
