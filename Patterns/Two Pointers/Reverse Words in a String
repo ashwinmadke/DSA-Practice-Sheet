@@ -1,0 +1,70 @@
+
+**********************************************************************************************************************************************************************
+Brute Approach : Trim + Split + Two pointers
+TC - O(n)
+SC - O(n)
+
+public String reverseWords(String s) {
+        s = s.trim(); //remove leading & trailing spaces
+        String[] words = s.split("\\s+"); // Split string into an array of strings
+
+        //take two pointers and start swapping words
+        // in the end join with 1 space & return
+        int left = 0;
+        int right = words.length-1;
+
+        while(left < right){
+            String temp = words[left];
+            words[left] = words[right];
+            words[right] = temp;
+            left++;
+            right--;
+        }
+        return String.join(" ", words);
+    }
+
+**********************************************************************************************************************************************************************
+Optimal Approach - 
+Start traversing the string from the end. If any spaces come, ignore them. If found a character, track its index and move left until found the start of that word.
+Once a word is found, add it to the result. Continue this process till the beginning of string and before adding a new word, put a single space.
+
+TC - O(n)
+SC - O(n), output space
+Auxilary space - O(1)
+
+
+public String reverseWords(String s) {
+        StringBuilder result = new StringBuilder();
+        int i = s.length()-1; //start from end of string
+
+        //until we reach beginning of string keep going
+        while(i>=0){
+
+            //Step1 :skip trailing space if any
+            while(i>=0 && s.charAt(i) == ' ') i--;
+
+            //if we reach the beginning of string after skipping space
+            //break
+            if(i<0) break;
+
+            //Step2 : track the end index of word
+            int end = i;
+
+            //Step3 : move left to find the start index of word
+            while(i>=0 && s.charAt(i) != ' ') i--;
+
+            //Step4 : append the word to the result
+            // if result already have any word, add single space before
+            // appending
+            if(result.length() > 0){
+                result.append(' ');
+            }
+
+            //extract the substring, and append to result
+            //i+1 - start index of word (including)
+            //end+1 - end index of word (excluding)
+            result.append(s.substring(i+1,end+1));
+        }
+        return result.toString(); //convert stringbuilder back to string
+
+    }
