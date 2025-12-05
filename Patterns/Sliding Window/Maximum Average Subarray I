@@ -1,0 +1,28 @@
+**********************************************************************************************************************************************************************
+Brute Approach - 
+Generate all subarray of k length, keep track of maximum sum, in the end return maxsum/k;
+TC - O(n^2)
+SC - O(1)
+**********************************************************************************************************************************************************************
+Optimal Approach - Sliding window
+TC - O(n)
+SC - O(1)
+
+public double findMaxAverage(int[] nums, int k) {
+        int n = nums.length;
+        int w_sum = 0;
+
+        //sum of first window
+        for(int i=0; i<k; i++){
+            w_sum += nums[i];
+        }
+
+        int maxSum = w_sum;
+        //slide the window from start to end of array
+        // by adding new element and removing old element
+        for(int i=k; i<n; i++){
+            w_sum += nums[i] - nums[i-k];
+            maxSum = Math.max(maxSum, w_sum);
+        }
+        return (double) maxSum/k;
+    }
