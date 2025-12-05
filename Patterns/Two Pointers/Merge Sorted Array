@@ -1,0 +1,35 @@
+https://leetcode.com/problems/merge-sorted-array/
+
+**********************************************************************************************************************************************************************
+Optimal - Two pointers
+TC - O(n)
+SC - O(1)
+
+public void merge(int[] nums1, int m, int[] nums2, int n) {
+        //take two pointers place both at end of an array
+        int i = m-1;
+        int j = n-1;
+        int pos = m+n-1;//position where element needs to get added
+
+        //jab tak i and j greater than 0 hai
+        while(i>= 0 && j >= 0){
+            //agar nums2 ka element nums1 ke element se bada hai
+            // to pos pe place kardo and pos and jth pointer
+            // dono ko decrement kardo
+            if(nums2[j] > nums1[i]){
+                nums1[pos--] = nums2[j--];
+                
+            }
+            // agar nums1 ka element bda hai to nums2 ke element se
+            // to pos pe place kardo and pos and ith pointer
+            // dono ko decrement kardo
+            else{
+                nums1[pos--] = nums1[i--];   
+            }
+            
+        }
+        // agar nums2 me koi element reh gye ho to
+        while(j>= 0){
+            nums1[pos--] = nums2[j--];
+        }
+    }
