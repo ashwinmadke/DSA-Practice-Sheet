@@ -1,0 +1,40 @@
+https://leetcode.com/problems/sort-colors/description/
+
+*******************************************************************************************************************************************************************
+Brute Approach - Simply sort the array
+TC - O(n log n)
+SC - O(1)
+
+*******************************************************************************************************************************************************************
+Optimal Approach - Two Pointers (Dutch National Flag Algo)
+TC - O(n)
+SC - O(1)
+public void sortColors(int[] nums) {
+        int low = 0; 
+        int mid = 0;
+        int high = nums.length-1;
+      
+        // loop till mid is less than high
+        while(mid <= high){
+            // if mid sees 0, swap with low, increment low & mid
+            if(nums[mid] == 0){
+                int temp = nums[mid];
+                nums[mid] = nums[low];
+                nums[low] = temp;
+                low++;
+                mid++;
+            }
+            // if mid sees 1, 1 is at correct position ,just increment mid 
+            else if(nums[mid] == 1){
+                mid++;
+            }
+            // if mid sees 2, swap with high, decrement high
+            else{
+                int temp = nums[mid];
+                nums[mid] = nums[high];
+                nums[high] = temp;
+                high--;
+                
+            }
+        }
+    }
