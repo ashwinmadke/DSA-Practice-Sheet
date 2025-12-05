@@ -1,0 +1,54 @@
+// https://leetcode.com/problems/minimum-size-subarray-sum/description/
+
+***********************************************************************************************************************************************************************
+brute force : 
+Idea - check all possible subarrays, calculate their sum and if sum >= target update min length.
+TC - O(n^2)
+SC - O(1)
+
+public int minSubArrayLen(int target, int[] nums) {
+        
+        int n = nums.length;
+        int minLen = Integer.MAX_VALUE;
+
+        for(int i =0; i<n; i++){
+            int sum = 0;
+            for(int j=i; j<n; j++){
+                sum += nums[j];
+
+                if(sum >= target){
+                    minLen = Math.min(minLen, j-i+1);
+                    break; // no need to check longer subarrays
+                }
+            }
+        }
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+}
+
+***********************************************************************************************************************************************************************
+Optimal Approach - Using Sliding Window
+Take two pointers(left,right) place both at start of array
+calculate sum, check if sum >= target -> shrink window from left
+If sum<= target -> expand window
+and keep track of minLen
+
+TC - O(n)
+SC - O(1)
+
+    public int minSubArrayLen(int target, int[] nums) {
+        int n = nums.length;
+        int minLen = Integer.MAX_VALUE;
+        int sum = 0;
+        int left = 0;
+
+        for(int right=0; right<n; right++){
+            sum += nums[right];
+
+            while(sum >= target){
+                minLen = Math.min(minLen, right-left+1);
+                sum -= nums[left];
+                left++;
+            }
+        }
+        return (minLen == Integer.MAX_VALUE) ? 0 : minLen;
+    }
