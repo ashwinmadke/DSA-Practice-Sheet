@@ -1,0 +1,44 @@
+https://leetcode.com/problems/find-all-anagrams-in-a-string/description/
+
+********************************************************************************************************************************************************************
+Brute Approach - 
+Generate all anagrams of string s, store in set, and extract substring from string p of length s, and check if that exists in set or not.
+If exists store its start index in result, repeat same for rest substrings.
+
+TC - O(m! + n*m)
+SC - O(m!) for storing anagrams in set
+
+********************************************************************************************************************************************************************
+Optimal Approach - Sliding window
+TC - O(n) // bcoz we are traversing string only once
+SC - O(26) = O(1)
+public List<Integer> findAnagrams(String s, String p) {
+        int[] freq1_p = new int[26];
+        int[] freq2_s = new int[26];
+        List<Integer> result = new ArrayList();
+
+        //Step1 : built the frequency map for string p
+        for(char c : p.toCharArray()){
+            freq1_p[c- 'a']++ ;
+        }
+
+        //Step2: Apply sliding window to count frequency of characters
+        // in string s
+        for(int i=0; i<s.length(); i++){
+            freq2_s[s.charAt(i) - 'a']++;
+
+            //if window becomes greater than p.length()
+            // shrink the window from left, by removing character
+            // and decrement frequency from map
+            int windowSize = p.length();
+            if(i>=windowSize){
+                freq2_s[s.charAt(i-windowSize) - 'a']--;
+            }
+
+            //compare frequency of both arrays
+            if(Arrays.equals(freq1_p, freq2_s)){
+                result.add(i-windowSize+1);
+            }
+        }
+        return result;
+    }
