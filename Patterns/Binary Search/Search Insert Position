@@ -1,0 +1,41 @@
+
+***********************************************************************************************************************************************************************
+TC - O(n)
+SC - O(1)
+
+public int searchInsert(int[] nums, int target) {
+        //brute search linearly
+        for(int i=0; i<nums.length; i++){
+            //if curr element is greater than target, return that index
+            if(nums[i] >= target){
+                return i; //correct pos of target if not found, and target is less than elements of array
+            }
+        }
+
+        return nums.length;// correct pos of element, if target not found and greater than all elements of array
+    }
+
+***********************************************************************************************************************************************************************
+TC - O(n)
+SC - O(1)
+
+public int searchInsert(int[] nums, int target) {
+        // Optimal - Using binary search
+        int lo = 0;
+        int hi = nums.length-1;
+
+        while(lo <= hi){
+            int mid = lo + (hi-lo)/2;
+
+            if(target == nums[mid]) return mid;
+
+            if(target < nums[mid]){
+                hi = mid-1;
+            }
+            else{
+                lo = mid+1;
+            }
+        }
+        // if target not found, lo is the correct position
+        return lo;
+    }
