@@ -1,0 +1,32 @@
+***********************************************************************************************************************************************************************
+Brute Approach -
+Start iterating over array and check each element if its greater than its neighbor.
+TC - O(n)
+SC - O(1)
+
+
+***********************************************************************************************************************************************************************
+Optimal Approach - Binary Search
+TC - O(log n)
+SC - O(1)
+
+public int findPeakElement(int[] nums) {
+        //Approach - Binary search
+        // Check if mid > mid+1, than we will find peak in leftt side
+        // else in right side
+        int left = 0;
+        int right = nums.length-1;
+
+        while(left < right){
+            int mid = left + (right - left)/2;
+
+
+            if(nums[mid] > nums[mid+1]){
+                right = mid;//mid can be peak
+            }
+            else{
+                left = mid+1; //mid can not be peak
+            }
+        }
+        return left;
+    }
