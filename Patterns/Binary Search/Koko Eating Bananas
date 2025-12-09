@@ -1,0 +1,40 @@
+
+**********************************************************************************************************************************************************************
+Optimal Approach - Binary Search
+TC - O(n log M), n = piles.length and M = max(piles)
+SC - O(1)
+
+boolean canEatAll(int[] piles, int mid, int h){
+        int hours = 0;
+
+        for(int bananas : piles){
+            hours += bananas/mid; //1 ghante me kitna banana kha skta hu
+
+            //if any banana left to eat, add extra hour
+            if(bananas % mid != 0) hours++;
+        }
+        return hours <= h;
+    }
+    public int minEatingSpeed(int[] piles, int h) {
+        int left = 1;//min banana koko can eat
+        int right = 0;
+
+        // maximum banana koko can eat
+        for(int i : piles){
+            right = Math.max(i,right);
+        }
+
+        //apply binary search
+        while(left < right){
+            int mid = left + (right - left)/2;
+
+            //if koko can eat all banana in h hour
+            if(canEatAll(piles,mid,h)){
+                right = mid; // than try to eat less banana per hour
+            }
+            else{
+                left = mid+1; // try to eat more banana per hour
+            }
+        }
+        return left;
+    }
