@@ -1,0 +1,29 @@
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/
+
+***********************************************************************************************************************************************************************
+Brute Approach - Search linearly for min element
+TC - O(n)
+SC - O(1)
+
+***********************************************************************************************************************************************************************
+Optimal Approach - Binary Search
+TC - O(log n)
+SC - O(1)
+
+public int findMin(int[] nums) {
+        int left = 0;
+        int right = nums.length-1;
+
+        while(left < right){
+            int mid = left + (right - left)/2;
+
+            // if mid greater than right than min will be in right side
+            if(nums[mid] > nums[right]){
+                left = mid+1;
+            }
+            else{//else in left side, including mid
+                right = mid;
+            }
+        }
+        return nums[left];
+    }
