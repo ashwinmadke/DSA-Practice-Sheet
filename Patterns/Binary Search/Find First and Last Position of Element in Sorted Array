@@ -1,0 +1,70 @@
+https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/
+
+***********************************************************************************************************************************************************************
+Brute - 
+Traverse the array from left to right and maintain two variables firstOccurrence and lastOccurrence and assign -1. 
+When the element equals the target for the first time, store its index in firstOccurrence. For every subsequent occurrence of the target, keep updating lastOccurrence.
+If the target never found, both remain -1
+TC - O(n)
+SC - O(1)
+
+***********************************************************************************************************************************************************************
+Optimal - Binary Search
+Ek bar leftmost ke liye lga do & 
+ek bar rightmost ke liye
+
+TC - O(log n)
+SC - O(1)
+
+public int[] searchRange(int[] nums, int target) {
+        int leftMost = findLeftMost(nums,target);
+        int rightMost = findRightMost(nums,target);
+
+        return new int[]{leftMost, rightMost};   
+    }
+
+    private int findLeftMost(int[] nums, int target){
+        int left = 0;
+        int right = nums.length-1;
+        int possible_ans = -1;
+
+        while(left <= right){
+            int mid = left + (right - left)/2;
+            // agar mid target ke barabar hai, to jaruri nhi ki vhi leftmost ans ho, store karlo use
+            // and left ki or ja kr dekho shyd koi left most mil jaye
+            if(nums[mid] == target){
+                possible_ans = mid;
+                right = mid-1; //first occurrence - go and check in left side
+            }
+            else if(nums[mid] < target){
+                left = mid+1;
+            }
+            else{
+                right = mid-1;
+            }
+        }
+        return possible_ans;
+    }
+
+    private int findRightMost(int[] nums, int target){
+        int left = 0;
+        int right = nums.length-1;
+        int possible_ans = -1;
+
+        while(left <= right){
+            int mid = left + (right - left)/2;
+            // agar mid target ke barabar hai, to jaruri nhi ki vhi rightmost ans ho, store karlo use
+            // and right ki or ja kr dekho shyd koi right most mil jaye
+            if(nums[mid] == target){
+                possible_ans = mid;
+                left = mid+1; // last occurrence - go and check in right side
+            }
+            else if(nums[mid] < target){
+                left = mid+1;
+            }
+            else{
+                right = mid-1;
+            }
+        }
+        return possible_ans;
+    }    
