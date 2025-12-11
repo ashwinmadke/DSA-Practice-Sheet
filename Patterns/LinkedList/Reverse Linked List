@@ -1,0 +1,19 @@
+
+***********************************************************************************************************************************************************************
+Iterative Solution -
+TC - O(n)
+SC - O(1)
+
+public ListNode reverseList(ListNode head) {
+        ListNode prev = null;// to keep track of reversed nodes
+        ListNode curr = head; // the node we are fixing
+        
+        //jab tk curr null nhi ho jata
+        while(curr != null){
+            ListNode next = curr.next;// to keep track of rest of nodes
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev; //new head
+}
