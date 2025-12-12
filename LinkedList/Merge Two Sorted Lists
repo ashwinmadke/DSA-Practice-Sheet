@@ -1,0 +1,43 @@
+https://leetcode.com/problems/merge-two-sorted-lists/description/
+
+***********************************************************************************************************************************************************************
+Brute - Create new node at each step while adding to a new list
+TC - O(m+n)
+SC - O(m+n)
+
+public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0);//will be head for new list
+        ListNode tail = dummy;
+
+        //traverse both the list
+        while(list1 != null && list2 != null){
+            if(list1.val <= list2.val){
+                //create newNode with l1.value
+                ListNode newNode = new ListNode(list1.val);
+                tail.next = newNode;
+                list1 = list1.next;
+            }
+            else{
+                //create new node with l2.value
+                ListNode newNode = new ListNode(list2.val);
+                tail.next = newNode;
+                list2 = list2.next;
+            }
+            tail = tail.next; //keep moving tail
+        }
+        //if any element left in list1 - copy them
+        while(list1 != null){
+            ListNode newNode = new ListNode(list1.val);
+            tail.next = newNode;
+            list1 = list1.next;
+            tail = tail.next;
+        }
+        //if any element left in list2 - copy them
+        while(list2 != null){
+            ListNode newNode = new ListNode(list2.val);
+            tail.next = newNode;
+            list2 = list2.next;
+            tail = tail.next;
+        }
+        return dummy.next;
+    }
