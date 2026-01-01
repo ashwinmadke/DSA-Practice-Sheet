@@ -1,0 +1,33 @@
+https://leetcode.com/problems/merge-intervals/
+
+TC - O(n logn n)
+SC - O(n)
+
+public int[][] merge(int[][] intervals) {
+        //Step 1 : sort the array
+        Arrays.sort(intervals, (a,b)-> a[0] - b[0]);
+
+        //Step 2 : make result list and take first interval as prev
+        List<int[]> result = new ArrayList<>();
+        int[] prev = intervals[0];
+
+         //Step 2 : traverse and compare
+         for(int i=1; i<intervals.length; i++){
+            int[] curr = intervals[i];
+
+            if(curr[0] <= prev[1]){
+                //overlap
+                prev[1] = Math.max(prev[1],curr[1]);
+            }
+            else{
+                //no overlap
+                result.add(prev);
+                prev = curr;
+            }
+         }
+          //Step 4: add last interval
+          result.add(prev);
+
+         //Step 5 : return result
+         return result.toArray(new int[result.size()][]);
+    }
