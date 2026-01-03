@@ -1,0 +1,42 @@
+https://leetcode.com/problems/insert-interval/
+
+TC - O(n log n)
+SC - O(n)
+
+public int[][] insert(int[][] intervals, int[] newInterval) {
+        // need list to add existing interval
+        List<int[]> list = new ArrayList<>();
+        
+        for(int[] in : intervals){
+            list.add(in);
+        }
+        // add new interval
+        list.add(newInterval);
+
+        // sort list based on start time
+        list.sort((a,b)->Integer.compare(a[0],b[0]));
+
+        // Merge interval logic
+        List<int[]> result = new ArrayList<>();
+        int[] prev = list.get(0);
+
+        // traverse and compare
+        for(int i=1; i<list.size(); i++){
+            int[] curr = list.get(i);
+
+            //overlap -> merge
+            if(curr[0] <= prev[1]){
+                prev[1] = Math.max(prev[1], curr[1]);
+            }
+            else{
+                //no overlap -> save
+                result.add(prev);
+                prev = curr;
+            }
+        }
+        // add last interval
+        result.add(prev);
+
+        // return ans by converting list into 2d array
+        return result.toArray(new int[result.size()][]);
+    }
