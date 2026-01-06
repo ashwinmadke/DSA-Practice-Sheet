@@ -4,30 +4,33 @@ TC - O(n logn n)
 SC - O(n)
 
 public int[][] merge(int[][] intervals) {
-        //Step 1 : sort the array
-        Arrays.sort(intervals, (a,b)-> a[0] - b[0]);
+        // Step 1 : Sor the array based on start time
+        Arrays.sort(intervals, (a,b)-> Integer.compare(a[0],b[0]));
 
-        //Step 2 : make result list and take first interval as prev
-        List<int[]> result = new ArrayList<>();
-        int[] prev = intervals[0];
+        // Step 2 : list to process all intervals
+        // in list we are processing 1D array
+        List<int[]> list = new ArrayList<>();
 
-         //Step 2 : traverse and compare
-         for(int i=1; i<intervals.length; i++){
-            int[] curr = intervals[i];
-
-            if(curr[0] <= prev[1]){
-                //overlap
-                prev[1] = Math.max(prev[1],curr[1]);
+        // Step 3 : iterate over all intervals
+        for(int[] interval : intervals){
+            //if list is empty than add first interval as it is
+            if(list.size() == 0){
+                list.add(interval);
             }
+            // if list is not empty then
             else{
-                //no overlap
-                result.add(prev);
-                prev = curr;
+                // case 1 : Overlap --> Merge
+                int[] prevInterval = list.get(list.size()-1);
+                if(interval[0] <= prevInterval[1]){
+                    prevInterval[1] = Math.max(interval[1], prevInterval[1]);
+                }
+                else{
+                    //case 2 : No-Overlap --> add the interval as it is
+                    list.add(interval);
+                }
+                
             }
-         }
-          //Step 4: add last interval
-          result.add(prev);
-
-         //Step 5 : return result
-         return result.toArray(new int[result.size()][]);
+        }
+        // Step 4 : Convert list back to 2D Array & return
+        return list.toArray(new int[list.size()][]);
     }
