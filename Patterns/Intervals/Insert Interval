@@ -18,24 +18,22 @@ public int[][] insert(int[][] intervals, int[] newInterval) {
 
         // Merge interval logic
         List<int[]> result = new ArrayList<>();
-        int[] prev = list.get(0);
-
-        // traverse and compare
-        for(int i=1; i<list.size(); i++){
-            int[] curr = list.get(i);
-
-            //overlap -> merge
-            if(curr[0] <= prev[1]){
-                prev[1] = Math.max(prev[1], curr[1]);
+        for(int[] interval : list){
+            if(result.size() == 0){
+                result.add(interval);
             }
             else{
-                //no overlap -> save
-                result.add(prev);
-                prev = curr;
+                // overlap -> merge
+                int[] prevInterval = result.get(result.size()-1);
+                if(interval[0] <= prevInterval[1]){
+                    prevInterval[1] = Math.max(interval[1], prevInterval[1]);
+                }
+                else{
+                    // no overlap
+                    result.add(interval);
+                }
             }
         }
-        // add last interval
-        result.add(prev);
 
         // return ans by converting list into 2d array
         return result.toArray(new int[result.size()][]);
