@@ -1,0 +1,32 @@
+https://leetcode.com/problems/interval-list-intersections/description/
+
+TC - O(n logn)
+SC - O(1) // ignoring output list
+
+public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
+        // list to store intervals
+        List<int[]> ansList = new ArrayList<>();
+        // pointers for both list
+        int ptr1 = 0;
+        int ptr2 = 0;
+        // continue until one of list gets finished
+        while(ptr1 < firstList.length && ptr2 < secondList.length){
+            int cSP = Math.max(firstList[ptr1][0], secondList[ptr2][0]);
+            int cEP = Math.min(firstList[ptr1][1], secondList[ptr2][1]);
+            // Intersection condition
+            if(cSP <= cEP){
+                int[] newInterval = {cSP, cEP};
+                ansList.add(newInterval);
+            }
+
+            // move pointer in list, whose interval end point is a min
+            if(firstList[ptr1][1] < secondList[ptr2][1]){
+                ptr1++;
+            }
+            else{
+                ptr2++;
+            }
+        }
+        // convert list bacl to 2D array and return
+        return ansList.toArray(new int[ansList.size()][]);
+    }
