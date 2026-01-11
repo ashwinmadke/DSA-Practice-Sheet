@@ -1,0 +1,29 @@
+https://neetcode.io/problems/meeting-schedule-ii/question
+
+TC - O(n log n)
+SC - O(n)
+
+public int minMeetingRooms(List<Interval> intervals) {
+        // edge case
+        if(intervals == null || intervals.size() == 0) return 0;
+
+        // Step 1 : sort the intervals based on start time
+        Collections.sort(intervals,(a,b)->a.start - b.start);
+
+        // Step 2 : min heap for storing end time of meetings
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        // Schedule first meeting
+        pq.add(intervals.get(0).end);
+
+        for(int i=1; i<intervals.size(); i++){
+            Interval curr = intervals.get(i);
+
+            //if room is available
+            if(curr.start >= pq.peek()){
+                pq.poll();
+            }
+            //add curr meeting end
+            pq.add(curr.end);
+        }
+        return pq.size();// tells how many rooms we needed
+    }
