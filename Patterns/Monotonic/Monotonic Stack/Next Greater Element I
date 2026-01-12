@@ -1,0 +1,35 @@
+https://leetcode.com/problems/next-greater-element-i/description/
+
+********************************************************************************************************************************************************************
+Brute Approach -
+For each element of nums1, check in nums 2 on its right, using two loops.
+TC - O(n^2)
+SC - O(1)
+********************************************************************************************************************************************************************
+Optimized Approach - 
+TC - O(m+n)
+SC - O(n)
+
+public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        // Stack for maintaining NGE
+        Stack<Integer> st = new Stack<>();
+        // map to store popped element and nge in pair
+        Map<Integer,Integer> map = new HashMap<>();
+        // iterate over nums2
+        for(int num : nums2){
+            while(!st.isEmpty() && st.peek() < num){
+                map.put(st.pop(),num);
+            }
+            st.push(num);
+        }
+        //remaining elements in stack
+        while(!st.isEmpty()){
+            map.put(st.pop(),-1);
+        }
+        // build result
+        int[] result = new int[nums1.length];
+        for(int i=0; i<nums1.length; i++){
+            result[i] = map.get(nums1[i]);
+        }
+        return result;
+    }
