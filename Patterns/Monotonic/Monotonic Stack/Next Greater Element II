@@ -1,0 +1,29 @@
+https://leetcode.com/problems/next-greater-element-ii/description/
+
+TC - O(n)
+SC - O(n)
+
+public int[] nextGreaterElements(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        Arrays.fill(result, -1);
+
+        // stack to store indices
+        Stack<Integer> stack = new Stack<>();
+
+        //iterate over array twice
+        for(int i=0; i<2*n; i++){
+            int currIdx = i % n;
+
+            while(!stack.isEmpty() && nums[stack.peek()] < nums[currIdx]){
+                result[stack.pop()] = nums[currIdx];
+            }
+
+            // push in first pass only
+            if(i<n){
+                stack.push(currIdx);
+            }
+        }
+        return result;
+    }
+
